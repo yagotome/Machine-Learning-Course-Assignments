@@ -81,9 +81,24 @@ X = [ones(m, 1) X];
 
 fprintf('Running gradient descent ...\n');
 
+[theta, J0] = gradientDescentMulti(X, y, zeros(3, 1), 1.3, 50);
+[theta, J1] = gradientDescentMulti(X, y, zeros(3, 1), 0.3, 50);
+[theta, J2] = gradientDescentMulti(X, y, zeros(3, 1), 0.1, 50);
+[theta, J3] = gradientDescentMulti(X, y, zeros(3, 1), 0.03, 50);
+
+figure;
+hold on;
+plot(1:50, J0(1:50)/1e10, 'y');
+plot(1:50, J1(1:50)/1e10, 'b');
+plot(1:50, J2(1:50)/1e10, 'r');
+plot(1:50, J3(1:50)/1e10, 'k');
+
+fprintf('Program paused. Press enter to continue.\n');
+pause;
+
 % Choose some alpha value
-alpha = 0.01;
-num_iters = 400;
+alpha = 0.3;
+num_iters = 200;
 
 % Init Theta and Run Gradient Descent 
 theta = zeros(3, 1);
@@ -91,7 +106,7 @@ theta = zeros(3, 1);
 
 % Plot the convergence graph
 figure;
-plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+plot(1:numel(J_history), J_history/1e10, '-b', 'LineWidth', 2);
 xlabel('Number of iterations');
 ylabel('Cost J');
 
@@ -104,8 +119,15 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
 
+% setting feature values
+sq_ft = 1650;
+bedrooms = 3;
+% normalizing features
+sq_ft = (sq_ft - mu(1))/sigma(1);
+bedrooms = (bedrooms - mu(2))/sigma(2);
+% calculating price (hypothesis)
+price = [1 sq_ft bedrooms] * theta;
 
 % ============================================================
 
