@@ -26,6 +26,15 @@ sigma = zeros(1, size(X, 2));
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
 
+% range normalization
+%mu = zeros(1, size(X,2));
+%sigma = (max(X)-min(X)+1);
+%if ~sigma
+%  sigma = ones(1, (size(X, 2)));
+%end
+%X_norm = (X - mu) ./ sigma;
+
+% standard deviation normalization
 mu = mean(X);
 sigma = std(X);
 X_norm = (X - mu) ./ sigma;
