@@ -12,8 +12,8 @@ theta = zeros(size(X, 2), 1);
 
 % ---------------------- Sample Solution ----------------------
 
-
-
+%theta = pinv(X'*X)*X'*y; % using pinv (pseudo inverse)
+theta = inverse(X'*X)*X'*y;
 
 % -------------------------------------------------------------
 
