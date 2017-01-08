@@ -13,14 +13,16 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
- h = X * theta; % hipothesis
- % another implementation for hipothesis:
- %h = (theta' * X')' 
+h = X * theta; % hipothesis
+% another implementation for hipothesis:
+%h = (theta' * X')' 
 
-squaredErrorMatrix = (h - y) .^ 2;
+% a way to do is these 2 lines below
+%squaredErrorMatrix = (h - y) .^ 2;
+%J = sum(squaredErrorMatrix)/(2*m);
 
-J = sum(squaredErrorMatrix)/(2*m);
-
+% another way equivalently to do
+J = (h - y)'*(h - y)/(2*m);
 
 % =========================================================================
 
