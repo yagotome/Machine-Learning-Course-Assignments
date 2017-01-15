@@ -15,11 +15,12 @@ p = zeros(m, 1);
 %               You should set p to a vector of 0's and 1's
 %
 
+% hypothesis (probability)
+%h = sigmoid(X*theta);
+%p = h >= 0.5;
 
-
-
-
-
+% it is not necessary to apply sigmoid function
+p = (X*theta) >= 0;
 
 % =========================================================================
 
