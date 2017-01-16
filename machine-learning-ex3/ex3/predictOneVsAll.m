@@ -30,11 +30,12 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
-
-
-
+% a > b <=> sigmoid(a) > sigmoid(b)
+% so, it is not needed to apply sigmoid function to predict as follows
+%[_ p] = max(sigmoid(all_theta*X'));
+[_ p] = max(all_theta*X');
+p = p';
+p(find(p == 10)) = 0;
 
 % =========================================================================
 
