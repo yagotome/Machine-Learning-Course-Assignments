@@ -33,8 +33,7 @@ X = [ones(m, 1) X];
 % a > b <=> sigmoid(a) > sigmoid(b)
 % so, it is not needed to apply sigmoid function to predict as follows
 %[_ p] = max(sigmoid(all_theta*X'));
-[_ p] = max(all_theta*X');
-p = p';
+[_ p] = max(X*all_theta', [], 2);
 
 % =========================================================================
 
