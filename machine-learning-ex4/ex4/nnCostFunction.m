@@ -62,21 +62,22 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% Doing forward propagation
+a1 = X;
+a2 = sigmoid([ones(m,1) a1]*Theta1');
+a3 = sigmoid([ones(m,1) a2]*Theta2');
+h = a3;
 
+% Defining Cost J
+original_y = y;
+y = zeros(m, num_labels);
+for i = 1:length(original_y)
+  y(i, original_y(i)) = 1;
+end
+J = -1/m * sum(sum((y'*log(h) + (1 - y')*log(1-h))));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+% Doing backpropagation
+d = y - h;
 
 
 
