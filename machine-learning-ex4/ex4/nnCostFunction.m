@@ -78,8 +78,16 @@ J = -1/m * sum(sum((y'*log(h) + (1 - y')*log(1-h))));
 
 % Doing backpropagation
 d3 = a3 - y;
-d2 = (d3*Theta2) .* a2 .* (1 - a2);
+a2_with_bias = [ones(size(a2, 1), 1) a2];
+d2 = (d3*Theta2) .* a2_with_bias .* (1 - a2_with_bias);
 
+% Calculating capital deltas
+D1 = d2' * a1;
+D2 = d3' * a2;
+
+% Calculating gradients
+Theta1_grad = 1/m * ([zeros(size(D1, 1), 1) D1] + lambda*Theta1);
+Theta2_grad = 1/m * ([zeros(size(D2, 1), 1) D2] + lambda*Theta2);
 
 % -------------------------------------------------------------
 
