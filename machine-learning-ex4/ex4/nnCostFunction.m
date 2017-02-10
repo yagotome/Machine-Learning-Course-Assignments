@@ -70,24 +70,31 @@ h = a3;
 
 % Defining Cost J
 original_y = y;
-y = zeros(m, num_labels);
-for i = 1:length(original_y)
-  y(i, original_y(i)) = 1;
+y = eye(num_labels)(original_y,:);
+% J = -1/m * (sum(y'*log(h) + (1 - y)'*log(1-h)));
+J = 0;
+for i = 1:m
+  for k = 1:num_labels
+    J += -1/m * (y(i,k)*log(h(i,k)) + (1 - y(i,k))*log(1-h(i,k)));
+  end
 end
-J = -1/m * sum(sum((y'*log(h) + (1 - y')*log(1-h))));
+
+% Creating bias units
+a1_with_bias = [ones(size(a1, 1), 1) a1];
+a2_with_bias = [ones(size(a2, 1), 1) a2];
+a3_with_bias = [ones(size(a3, 1), 1) a3];
 
 % Doing backpropagation
 d3 = a3 - y;
-a2_with_bias = [ones(size(a2, 1), 1) a2];
-d2 = (d3*Theta2) .* a2_with_bias .* (1 - a2_with_bias);
+d2 = (d3 * Theta2(:, 2:end)) .* a2 .* (1 - a2);
 
 % Calculating capital deltas
 D1 = d2' * a1;
 D2 = d3' * a2;
 
 % Calculating gradients
-Theta1_grad = 1/m * ([zeros(size(D1, 1), 1) D1] + lambda*Theta1);
-Theta2_grad = 1/m * ([zeros(size(D2, 1), 1) D2] + lambda*Theta2);
+Theta1_grad = 1/m * (D1 + lambda*Theta1(:, 2:end));
+Theta2_grad = 1/m * (D2 + lambda*Theta2(:, 2:end));
 
 % -------------------------------------------------------------
 
