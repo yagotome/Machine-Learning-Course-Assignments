@@ -71,13 +71,14 @@ h = a3;
 % Defining Cost J
 original_y = y;
 y = eye(num_labels)(original_y,:);
-% J = -1/m * (sum(y'*log(h) + (1 - y)'*log(1-h)));
+% J = -1/m * sum(sum(y'*log(h) + (1 - y)'*log(1-h)));
 J = 0;
 for i = 1:m
   for k = 1:num_labels
     J += -1/m * (y(i,k)*log(h(i,k)) + (1 - y(i,k))*log(1-h(i,k)));
   end
 end
+J += lambda/(2*m) * (sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2)));
 
 % Creating bias units
 a1_with_bias = [ones(size(a1, 1), 1) a1];
