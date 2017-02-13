@@ -96,11 +96,8 @@ D1 = d2(:, 2:end)' * a1_with_bias;
 D2 = d3' * a2_with_bias;
 
 % Calculating gradients
-Theta1_grad = 1/m * D1;
-Theta2_grad = 1/m * D2;
-
-%Theta1_grad = 1/m * (D1 + lambda*Theta1);
-%Theta2_grad = 1/m * (D2 + lambda*Theta2);
+Theta1_grad = 1/m * (D1 + lambda*[zeros(size(Theta1, 1), 1) Theta1(:, 2:end)]);
+Theta2_grad = 1/m * (D2 + lambda*[zeros(size(Theta2, 1), 1) Theta2(:, 2:end)]);
 
 % -------------------------------------------------------------
 
