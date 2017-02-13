@@ -64,8 +64,10 @@ Theta2_grad = zeros(size(Theta2));
 
 % Doing forward propagation
 a1 = X;
-a2 = sigmoid([ones(m,1) a1]*Theta1');
-a3 = sigmoid([ones(m,1) a2]*Theta2');
+z2 = [ones(m,1) a1]*Theta1';
+a2 = sigmoid(z2);
+z3 = [ones(m,1) a2]*Theta2';
+a3 = sigmoid(z3);
 h = a3;
 
 % Defining Cost J
@@ -82,20 +84,23 @@ J += lambda/(2*m) * (sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) 
 
 % Creating bias units
 a1_with_bias = [ones(size(a1, 1), 1) a1];
+z2_with_bias = [ones(size(z2, 1), 1) z2];
 a2_with_bias = [ones(size(a2, 1), 1) a2];
-a3_with_bias = [ones(size(a3, 1), 1) a3];
 
 % Doing backpropagation
 d3 = a3 - y;
-d2 = (d3 * Theta2(:, 2:end)) .* a2 .* (1 - a2);
+d2 = (d3 * Theta2) .* sigmoidGradient(z2_with_bias);
 
 % Calculating capital deltas
-D1 = d2' * a1;
-D2 = d3' * a2;
+D1 = d2(:, 2:end)' * a1_with_bias;
+D2 = d3' * a2_with_bias;
 
 % Calculating gradients
-Theta1_grad = 1/m * (D1 + lambda*Theta1(:, 2:end));
-Theta2_grad = 1/m * (D2 + lambda*Theta2(:, 2:end));
+Theta1_grad = 1/m * D1;
+Theta2_grad = 1/m * D2;
+
+%Theta1_grad = 1/m * (D1 + lambda*Theta1);
+%Theta2_grad = 1/m * (D2 + lambda*Theta2);
 
 % -------------------------------------------------------------
 
